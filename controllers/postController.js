@@ -15,7 +15,7 @@ exports.posts_get = async (req, res) => {
 };
 
 // @route  POST /timeline
-// @desc   Get all posts
+// @desc   Create a posts
 // @access Private
 exports.posts_post = async (req, res) => {
   try {
@@ -89,7 +89,62 @@ exports.post_detail_delete = async (req, res) => {
   }
 };
 
-// @todo   Like a post by ID
-// @route  PUT /timeline/like/:id
-// @desc   Get post by ID
+// @route  PUT /timeline/post/:post_id/like
+// @desc   Like a post
 // @access Private
+exports.post_detail_like_put = async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.post_id);
+
+    // check if post has already been liked by user
+    if (
+      post.likes.filter((like) => like.user.toString() === req.user.id).length >
+      0
+    ) {
+      return res.status(400).json({ msg: "Post already liked" });
+    }
+
+    post.likes.unshift({ user: req.user.id });
+
+    await post.save();
+
+    res.json(post.likes);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+};
+
+// @route  PUT /timeline/post/:post_id/unlike
+// @desc   Unlike a post
+// @access Private
+exports.post_detail_unlike_put = async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.post_id);
+
+    // check if post has already been liked by user
+    if (
+      post.likes.filter((like) => like.user.toString() === req.user.id)
+        .length === 0
+    ) {
+      return res.status(400).json({ msg: "Post has not yet been liked" });
+    }
+
+    // Get user index
+    const removeIndex = post.likes
+      .map((like) => like.user.toString())
+      .indexOf(req.user.id);
+
+    post.likes.splice(removeIndex, 1);
+
+    await post.save();
+
+    res.json(post.likes);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+};
+
+// @todo   comment on a post
+// @todo   uncomment on a post

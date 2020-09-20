@@ -7,6 +7,9 @@ const {
   posts_get,
   posts_post,
   post_detail_get,
+  post_detail_delete,
+  post_detail_like_put,
+  post_detail_unlike_put,
 } = require("../../controllers/postController");
 
 // require validator modules
@@ -24,9 +27,13 @@ router.get("/post/:id", [auth], post_detail_get);
 // DELETE delete post
 router.delete("/post/:id", [auth], post_detail_delete);
 
-// @todo
 // PUT like post
+router.put("/post/:post_id/like", [auth], post_detail_like_put);
+
 // PUT unlike post
+router.put("/post/:post_id/unlike", [auth], post_detail_unlike_put);
+
+// @todo
 // PUT comment post
 // DELETE delete comment on post
 

@@ -130,12 +130,7 @@ exports.post_detail_unlike_put = async (req, res) => {
       return res.status(400).json({ msg: "Post has not yet been liked" });
     }
 
-    // Get user index
-    const removeIndex = post.likes
-      .map((like) => like.user.toString())
-      .indexOf(req.user.id);
-
-    post.likes.splice(removeIndex, 1);
+    post.likes = post.likes.filter(({ user }) => user !== req.user.id);
 
     await post.save();
 
@@ -146,5 +141,64 @@ exports.post_detail_unlike_put = async (req, res) => {
   }
 };
 
-// @todo   comment on a post
-// @todo   uncomment on a post
+// @route  POST timeline/post/:post_id/comment
+// @desc   Comment on a post
+// @access Private
+exports.post_detail_comment_post = async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.post_id);
+    const user = await User.findById(req.user.id);
+
+    const newComment = {
+      user: req.user.id,
+      text: req.body.text,
+      name: user.name,
+    };
+
+    post.comment.unshift(newComment);
+
+    await post.save();
+
+    res.json(post.comments);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+};
+
+// @route  POST timeline/post/:post_id/comment/:comment_id
+// @desc   Delete comment on a post
+// @access Private
+exports.post_detail_comment_delete = async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.post_id);
+
+    // pull out comment
+    const comment = post.comments.find(
+      (comment) => comment.id === req.params.comment_id
+    );
+
+    // make sure comment exists
+    if (!comment) {
+      return res.status(404).json({ msg: "Comment does not exist" });
+    }
+
+    // check user
+    if (comment.user.toString() !== req.user.id) {
+      return res
+        .status(401)
+        .json({ msg: "User not authorized to delete comment" });
+    }
+
+    post.comments = post.comments.filter(
+      ({ id }) => id !== req.params.comment_id
+    );
+
+    await post.save();
+
+    return res.json(post.comments);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+};

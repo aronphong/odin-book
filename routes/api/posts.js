@@ -10,10 +10,15 @@ const {
   post_detail_delete,
   post_detail_like_put,
   post_detail_unlike_put,
+  post_detail_comment_post,
+  post_detail_comment_delete,
 } = require("../../controllers/postController");
 
 // require validator modules
-const { validate_post } = require("../../validators/postvalidator");
+const {
+  validate_post,
+  validate_comment,
+} = require("../../validators/postvalidator");
 
 // GET all posts
 router.get("/", [auth], posts_get);
@@ -35,6 +40,17 @@ router.put("/post/:post_id/unlike", [auth], post_detail_unlike_put);
 
 // @todo
 // PUT comment post
+router.post(
+  "/post/:post_id/comment",
+  [auth, validate_comment],
+  post_detail_comment_post
+);
+
 // DELETE delete comment on post
+router.delete(
+  "/post/:post_id/comment/:comment_id",
+  [auth],
+  post_detail_comment_delete
+);
 
 module.exports = router;

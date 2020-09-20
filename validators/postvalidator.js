@@ -10,3 +10,14 @@ exports.validate_post = [
     next();
   },
 ];
+
+exports.validate_comment = [
+  check("text", "Text is required").not().isEmpty(),
+  (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(422).json({ errors: errors.array() });
+    }
+    next();
+  },
+];

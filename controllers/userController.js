@@ -50,7 +50,7 @@ exports.signup_post = async (req, res) => {
   }
 };
 
-// @router POST/users/login
+// @route  POST /users/login
 // @desc   Authenticate user & get token
 // @access Public
 exports.login_post = (req, res) => {
@@ -85,6 +85,19 @@ exports.login_post = (req, res) => {
         res.json({ token });
       }
     );
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+};
+
+// @route GET /users/friends
+// @desc  Get all users friends
+// access Private
+exports.friends_get = async (req, res) => {
+  try {
+    const friends = await User.findById(req.user.id).find({ friends });
+    res.json(friends);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server Error");

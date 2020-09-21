@@ -1,8 +1,13 @@
 const express = require("express");
 const router = express.Router();
+const auth = require("../../middleware/auth");
 
 // require controller modules
-const { login_post, signup_post } = require("../../controllers/userController");
+const {
+  login_post,
+  signup_post,
+  friends_get,
+} = require("../../controllers/userController");
 
 // require validator modules
 const {
@@ -28,5 +33,8 @@ router.post("/login", validate_login, login_post);
 
 // POST user sign up
 router.post("/sign-up", validate_signup, signup_post);
+
+// GET all friends
+router.put("/friends", [auth], friends_get);
 
 module.exports = router;

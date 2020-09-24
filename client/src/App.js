@@ -12,7 +12,7 @@ import "./App.css";
 
 const App = () => (
   <Provider store={store}>
-    <Fragment className='App'>
+    <Fragment>
       <Router>
         <Fragment>
           <Navbar />

@@ -1,7 +1,7 @@
 import { REGISTER_SUCCESS, REGISTER_FAIL } from "../actions/types";
 
 const initialState = {
-  token: localStore.getItem("token"),
+  token: localStorage.getItem("token"),
   isAuthenticated: null,
   loading: true,
   user: null,

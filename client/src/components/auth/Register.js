@@ -28,6 +28,10 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
     }
   };
 
+  // Redirect if logged in
+  if (isAuthenticated) {
+    return <Redirect to='/' />;
+  }
   return (
     <Fragment>
       <h1>Sign up</h1>
@@ -76,7 +80,7 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
         <input type='submit' className='btn' value='Register'></input>
       </form>
       <p>
-        Already have an account? <Link to='/register'>Sign In</Link>
+        Already have an account? <Link to='/login'>Sign In</Link>
       </p>
     </Fragment>
   );

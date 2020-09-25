@@ -8,7 +8,7 @@ const logger = require("morgan");
 
 const indexRouter = require("./routes/index");
 const usersRouter = require("./routes/api/users");
-const timeLineRouter = require("./routes//api/posts");
+const timeLineRouter = require("./routes/api/posts");
 
 const connectDB = require("./config/db");
 

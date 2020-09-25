@@ -18,7 +18,7 @@ const {
 const User = require("../../models/User");
 
 // Test Route
-router.get("/", async (req, res) => {
+router.get("/", [auth], async (req, res) => {
   try {
     const user = await User.findById(req.user.id).select("-password");
     res.json(user);

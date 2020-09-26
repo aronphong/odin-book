@@ -1,8 +1,12 @@
 import React from "react";
+import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 
-export const Landing = (props) => {
+export const Landing = ({ isAuthenticated }) => {
+  if (isAuthenticated) {
+    return <Redirect to='/timeline' />;
+  }
   return (
     <section className='landing'>
       <div>
@@ -19,6 +23,12 @@ export const Landing = (props) => {
   );
 };
 
-Landing.propTypes = {};
+Landing.propTypes = {
+  isAuthenticated: PropTypes.bool,
+};
 
-export default Landing;
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.auth.isAuthenticated,
+});
+
+export default connect(mapStateToProps)(Landing);

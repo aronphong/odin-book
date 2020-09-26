@@ -53,12 +53,12 @@ exports.signup_post = async (req, res) => {
 // @route  POST /users/login
 // @desc   Authenticate user & get token
 // @access Public
-exports.login_post = (req, res) => {
+exports.login_post = async (req, res) => {
   const { email, password } = req.body;
 
   // check if user exists
   try {
-    let user = User.findOne({ email });
+    let user = await User.findOne({ email });
 
     if (!user) {
       return res.status(400).json({ errors: [{ msg: "Invalid Credentials" }] });

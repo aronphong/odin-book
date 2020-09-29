@@ -24,8 +24,9 @@ const Login = ({ login, isAuthenticated }) => {
 
   // Redirect if valid credentials
   if (isAuthenticated) {
-    return <Redirect to='/' />;
+    return <Redirect to='/timeline' />;
   }
+
   return (
     <Fragment>
       <h1>Sign In</h1>

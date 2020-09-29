@@ -3,10 +3,12 @@ import { Link } from "react-router-dom";
 import Moment from "react-moment";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
+import { deletePost } from "../../actions/post";
 
 const PostItem = ({
   auth,
   post: { _id, name, text, user, avatar, likes, comments, date },
+  deletePost,
 }) => {
   return (
     <div className='post'>
@@ -19,7 +21,7 @@ const PostItem = ({
       <div>
         <p className='post-text'>{text}</p>
         <p className='post-date'>
-          <Moment fromAgo>{date}</Moment>
+          <Moment fromNow>{date}</Moment>
         </p>
       </div>
 
@@ -29,7 +31,9 @@ const PostItem = ({
         {/* @todo view last 3 comments only */}
         <button type='button'>Comment</button>
         {!auth.loading && user === auth.user._id && (
-          <button type='button'>Delete Post</button>
+          <button type='button' onClick={() => deletePost(_id)}>
+            Delete Post
+          </button>
         )}
       </Fragment>
     </div>
@@ -45,4 +49,4 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
-export default connect(mapStateToProps, {})(PostItem);
+export default connect(mapStateToProps, { deletePost })(PostItem);

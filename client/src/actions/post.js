@@ -1,6 +1,6 @@
 import axios from "axios";
 import { setAlert } from "./alert";
-import { ADD_POST, GET_POSTS, POST_ERROR } from "./types";
+import { ADD_POST, DELETE_POST, GET_POSTS, POST_ERROR } from "./types";
 
 // Get all posts
 export const getPosts = () => async (dispatch) => {
@@ -43,10 +43,27 @@ export const addPost = (formData) => async (dispatch) => {
   }
 };
 
+export const deletePost = (id) => async (dispatch) => {
+  try {
+    await axios.delete(`/posts/post/${id}`);
+
+    dispatch({
+      type: DELETE_POST,
+      payload: id,
+    });
+
+    dispatch(setAlert("Post Removed"));
+  } catch (err) {
+    dispatch({
+      type: POST_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
+  }
+};
+
 /*
   @todo
     Get friend's posts
-    Delete a post
     Like a post
     Comment on a post
     Delete comment on a post

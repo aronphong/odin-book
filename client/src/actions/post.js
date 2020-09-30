@@ -1,6 +1,12 @@
 import axios from "axios";
 import { setAlert } from "./alert";
-import { ADD_POST, DELETE_POST, GET_POSTS, POST_ERROR } from "./types";
+import {
+  ADD_COMMENT,
+  ADD_POST,
+  DELETE_POST,
+  GET_POSTS,
+  POST_ERROR,
+} from "./types";
 
 // Get all posts
 export const getPosts = () => async (dispatch) => {
@@ -53,6 +59,32 @@ export const deletePost = (id) => async (dispatch) => {
     });
 
     dispatch(setAlert("Post Removed"));
+  } catch (err) {
+    dispatch({
+      type: POST_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
+  }
+};
+
+export const addComment = (postId, formData) => async (dispatch) => {
+  const config = {
+    "Content-Type": "application/json",
+  };
+
+  try {
+    const res = await axios.post(
+      `/posts/post/${postId}/comment`,
+      formData,
+      config
+    );
+
+    dispatch({
+      type: ADD_COMMENT,
+      payload: res.data,
+    });
+
+    dispatch(setAlert("Comment Added"));
   } catch (err) {
     dispatch({
       type: POST_ERROR,

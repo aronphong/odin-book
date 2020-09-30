@@ -11,7 +11,9 @@ const Posts = ({ getPosts, post: { posts, loading } }) => {
   }, [getPosts]);
 
   // @todo return spinner if loading
-  return (
+  return loading ? (
+    <div>Loading...</div>
+  ) : (
     <Fragment>
       <h1>Your Timeline</h1>
 

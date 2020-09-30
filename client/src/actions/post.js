@@ -93,6 +93,22 @@ export const addComment = (postId, formData) => async (dispatch) => {
   }
 };
 
+export const deleteComment = (postId, commentId) => async (dispatch) => {
+  try {
+    await axios.delete(`/posts/post/${postId}/comment/${commentId}`);
+
+    dispatch({
+      type: DELETE_COMMENT,
+      payload: commentId,
+    });
+  } catch (err) {
+    dispatch({
+      type: POST_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
+  }
+};
+
 /*
   @todo
     Get friend's posts

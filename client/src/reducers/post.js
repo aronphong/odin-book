@@ -1,4 +1,10 @@
-import { ADD_POST, DELETE_POST, GET_POSTS, POST_ERROR } from "../actions/types";
+import {
+  ADD_POST,
+  DELETE_POST,
+  GET_POSTS,
+  POST_ERROR,
+  REMOVE_COMMENT,
+} from "../actions/types";
 
 const initialState = {
   posts: [],
@@ -32,6 +38,23 @@ export default function (state = initialState, action) {
         loading: false,
       };
 
+    case ADD_COMMENT:
+      return {
+        ...state,
+        post: { ...state.post, comments: payload },
+        loading: false,
+      };
+
+    case REMOVE_COMMENT:
+      return {
+        ...state,
+        post: {
+          ...post,
+          comments: state.post.comments.filter(
+            (comment) => comment._id !== payload
+          ),
+        },
+      };
     case POST_ERROR:
       return {
         ...state,

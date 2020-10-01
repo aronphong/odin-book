@@ -6,6 +6,7 @@ import {
   DELETE_POST,
   GET_POSTS,
   POST_ERROR,
+  DELETE_COMMENT,
 } from "./types";
 
 // Get all posts
@@ -69,7 +70,9 @@ export const deletePost = (id) => async (dispatch) => {
 
 export const addComment = (postId, formData) => async (dispatch) => {
   const config = {
-    "Content-Type": "application/json",
+    headers: {
+      "Content-Type": "application/json",
+    },
   };
 
   try {

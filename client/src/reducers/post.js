@@ -1,9 +1,10 @@
 import {
   ADD_POST,
+  ADD_COMMENT,
+  DELETE_COMMENT,
   DELETE_POST,
   GET_POSTS,
   POST_ERROR,
-  REMOVE_COMMENT,
 } from "../actions/types";
 
 const initialState = {
@@ -45,11 +46,11 @@ export default function (state = initialState, action) {
         loading: false,
       };
 
-    case REMOVE_COMMENT:
+    case DELETE_COMMENT:
       return {
         ...state,
         post: {
-          ...post,
+          ...state.post,
           comments: state.post.comments.filter(
             (comment) => comment._id !== payload
           ),

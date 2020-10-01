@@ -146,8 +146,8 @@ exports.post_detail_unlike_put = async (req, res) => {
 // @access Private
 exports.post_detail_comment_post = async (req, res) => {
   try {
+    const user = await User.findById(req.user.id).select("-password");
     const post = await Post.findById(req.params.post_id);
-    const user = await User.findById(req.user.id);
 
     const newComment = {
       user: req.user.id,
@@ -155,7 +155,7 @@ exports.post_detail_comment_post = async (req, res) => {
       name: user.name,
     };
 
-    post.comment.unshift(newComment);
+    post.comments.unshift(newComment);
 
     await post.save();
 

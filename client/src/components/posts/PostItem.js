@@ -1,8 +1,9 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import { Link } from "react-router-dom";
 import Moment from "react-moment";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
+import CommentForm from "./CommentForm";
 import { deletePost } from "../../actions/post";
 
 const PostItem = ({
@@ -35,6 +36,7 @@ const PostItem = ({
             Delete Post
           </button>
         )}
+        <CommentForm postId={_id} />
       </Fragment>
     </div>
   );
@@ -43,6 +45,7 @@ const PostItem = ({
 PostItem.propTypes = {
   post: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
+  deletePost: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({

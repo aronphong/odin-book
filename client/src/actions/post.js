@@ -104,6 +104,8 @@ export const deleteComment = (postId, commentId) => async (dispatch) => {
       type: DELETE_COMMENT,
       payload: commentId,
     });
+
+    dispatch(setAlert("Comment Deleted"));
   } catch (err) {
     dispatch({
       type: POST_ERROR,
@@ -116,6 +118,4 @@ export const deleteComment = (postId, commentId) => async (dispatch) => {
   @todo
     Get friend's posts
     Like a post
-    Comment on a post
-    Delete comment on a post
 */

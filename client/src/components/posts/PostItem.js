@@ -3,7 +3,8 @@ import { Link } from "react-router-dom";
 import Moment from "react-moment";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import CommentForm from "./CommentForm";
+import CommentForm from "./comments/CommentForm";
+import CommentItem from "./comments/CommentItem";
 import { deletePost } from "../../actions/post";
 
 const PostItem = ({
@@ -36,6 +37,9 @@ const PostItem = ({
             Delete Post
           </button>
         )}
+        {comments.map((comment) => (
+          <CommentItem key={comment._id} postId={_id} comment={comment} />
+        ))}
         <CommentForm postId={_id} />
       </Fragment>
     </div>

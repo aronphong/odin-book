@@ -55,6 +55,7 @@ export default function (state = initialState, action) {
             (comment) => comment._id !== payload
           ),
         },
+        loading: false,
       };
     case POST_ERROR:
       return {

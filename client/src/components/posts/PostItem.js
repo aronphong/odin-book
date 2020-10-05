@@ -5,11 +5,13 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import CommentForm from "./comments/CommentForm";
 import CommentItem from "./comments/CommentItem";
-import { deletePost } from "../../actions/post";
+import { addLike, removeLike, deletePost } from "../../actions/post";
 
 const PostItem = ({
   auth,
   post: { _id, name, text, user, avatar, likes, comments, date },
+  addLike,
+  removeLike,
   deletePost,
 }) => {
   return (
@@ -28,8 +30,13 @@ const PostItem = ({
       </div>
 
       <Fragment>
-        <button type='button'>Like</button>
-        <button type='button'>Unlike</button>
+        <button type='button' onClick={() => addLike(_id)}>
+          Like
+          <span>{likes.length > 0 && <span>{likes.length}</span>}</span>
+        </button>
+        <button type='button' onClick={() => removeLike(_id)}>
+          Unlike
+        </button>
         {/* @todo view last 3 comments only */}
         <button type='button'>Comment</button>
         {!auth.loading && user === auth.user._id && (
@@ -49,6 +56,8 @@ const PostItem = ({
 PostItem.propTypes = {
   post: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
+  addLike: PropTypes.func.isRequired,
+  removeLike: PropTypes.func.isRequired,
   deletePost: PropTypes.func.isRequired,
 };
 
@@ -56,4 +65,6 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
-export default connect(mapStateToProps, { deletePost })(PostItem);
+export default connect(mapStateToProps, { addLike, removeLike, deletePost })(
+  PostItem
+);

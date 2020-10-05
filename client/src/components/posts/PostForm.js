@@ -8,9 +8,6 @@ const PostForm = ({ addPost }) => {
 
   return (
     <div className='post-form'>
-      <div>
-        <h3>Whats on your mind?</h3>
-      </div>
       <form
         className='post-form'
         onSubmit={(e) => {
@@ -22,8 +19,8 @@ const PostForm = ({ addPost }) => {
         <textarea
           name='text'
           cols='30'
-          rows='5'
-          placeholder='Create a post'
+          rows='2'
+          placeholder='What is on your mind?'
           value={text}
           onChange={(e) => setText(e.target.value)}
           required

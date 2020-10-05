@@ -7,6 +7,7 @@ import {
   GET_POSTS,
   POST_ERROR,
   DELETE_COMMENT,
+  UPDATE_LIKES,
 } from "./types";
 
 // Get all posts
@@ -114,8 +115,43 @@ export const deleteComment = (postId, commentId) => async (dispatch) => {
   }
 };
 
+export const addLike = (postId) => async (dispatch) => {
+  try {
+    const res = await axios.put(`/posts/post/${postId}/like`);
+
+    dispatch({
+      type: UPDATE_LIKES,
+      payload: { postId, likes: res.data },
+    });
+
+    dispatch(setAlert("Post Liked"));
+  } catch (err) {
+    dispatch({
+      type: POST_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
+  }
+};
+
+export const removeLike = (postId) => async (dispatch) => {
+  try {
+    const res = await axios.put(`/posts/post/${postId}/unlike`);
+
+    dispatch({
+      type: UPDATE_LIKES,
+      payload: { postId, likes: res.data },
+    });
+
+    dispatch(setAlert("Post unliked"));
+  } catch (err) {
+    dispatch({
+      type: POST_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
+  }
+};
+
 /*
   @todo
     Get friend's posts
-    Like a post
 */

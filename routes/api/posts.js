@@ -38,7 +38,6 @@ router.put("/post/:post_id/like", [auth], post_detail_like_put);
 // PUT unlike post
 router.put("/post/:post_id/unlike", [auth], post_detail_unlike_put);
 
-// @todo
 // PUT comment post
 router.post(
   "/post/:post_id/comment",

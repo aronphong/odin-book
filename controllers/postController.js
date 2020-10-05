@@ -130,7 +130,9 @@ exports.post_detail_unlike_put = async (req, res) => {
       return res.status(400).json({ msg: "Post has not yet been liked" });
     }
 
-    post.likes = post.likes.filter(({ user }) => user !== req.user.id);
+    post.likes = post.likes.filter(
+      ({ user }) => user.toString() !== req.user.id
+    );
 
     await post.save();
 

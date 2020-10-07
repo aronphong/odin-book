@@ -22,30 +22,34 @@ const PostItem = ({
           <h4>{name}</h4>
         </Link>
       </div>
-      <div>
-        <p className='post-text'>{text}</p>
+      <div className='post-text'>
+        <p>{text}</p>
         <p className='post-date'>
           <Moment fromNow>{date}</Moment>
         </p>
       </div>
 
       <Fragment>
-        <button type='button' onClick={() => addLike(_id)}>
+        <button type='button' className='btn' onClick={() => addLike(_id)}>
           Like
           <span>{likes.length > 0 && <span>{likes.length}</span>}</span>
         </button>
-        <button type='button' onClick={() => removeLike(_id)}>
+        <button type='button' className='btn' onClick={() => removeLike(_id)}>
           Unlike
         </button>
         {/* @todo view last 3 comments only */}
-        <button type='button'>Comment</button>
-        {!auth.loading && user === auth.user._id && (
-          <button type='button' onClick={() => deletePost(_id)}>
+        {/* {!auth.loading && user === auth.user._id && (
+          <button type='button' className='btn' onClick={() => deletePost(_id)}>
             Delete Post
           </button>
-        )}
+        )} */}
         {comments.map((comment) => (
-          <CommentItem key={comment._id} postId={_id} comment={comment} />
+          <CommentItem
+            key={comment._id}
+            className='btn'
+            postId={_id}
+            comment={comment}
+          />
         ))}
         <CommentForm postId={_id} />
       </Fragment>

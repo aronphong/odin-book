@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Moment from "react-moment";
 import { connect } from "react-redux";
@@ -10,10 +10,13 @@ import { addLike, removeLike, deletePost } from "../../actions/post";
 const PostItem = ({
   auth,
   post: { _id, name, text, user, avatar, likes, comments, date },
+  liked,
   addLike,
   removeLike,
   deletePost,
 }) => {
+  const [like, setLike] = useState(liked);
+
   return (
     <div className='post'>
       <div>
@@ -30,19 +33,23 @@ const PostItem = ({
       </div>
 
       <Fragment>
-        <button type='button' className='btn' onClick={() => addLike(_id)}>
-          Like
-          <span>{likes.length > 0 && <span>{likes.length}</span>}</span>
+        <button
+          type='button'
+          className='btn'
+          onClick={async (e) => {
+            like ? await removeLike(_id) : await addLike(_id);
+            setLike(!like);
+          }}
+        >
+          <span>{like ? "Unlike" : "Like"}</span>
         </button>
-        <button type='button' className='btn' onClick={() => removeLike(_id)}>
-          Unlike
-        </button>
+
         {/* @todo view last 3 comments only */}
-        {/* {!auth.loading && user === auth.user._id && (
+        {!auth.loading && user === auth.user._id && (
           <button type='button' className='btn' onClick={() => deletePost(_id)}>
             Delete Post
           </button>
-        )} */}
+        )}
         {comments.map((comment) => (
           <CommentItem
             key={comment._id}

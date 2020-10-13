@@ -7,6 +7,7 @@ const {
   login_post,
   signup_post,
   friends_get,
+  friend_request_post,
 } = require("../../controllers/userController");
 
 // require validator modules
@@ -35,6 +36,9 @@ router.post("/login", validate_login, login_post);
 router.post("/sign-up", validate_signup, signup_post);
 
 // GET all friends
-router.put("/friends", [auth], friends_get);
+router.get("/friends", [auth], friends_get);
+
+// POST friend request
+router.post("/user/:id", [auth], friend_request_post);
 
 module.exports = router;

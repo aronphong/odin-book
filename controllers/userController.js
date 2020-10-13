@@ -91,13 +91,48 @@ exports.login_post = async (req, res) => {
   }
 };
 
-// @route GET /users/friends
+// @route GET /friends
 // @desc  Get all users friends
 // access Private
 exports.friends_get = async (req, res) => {
   try {
     const friends = await User.findById(req.user.id).find({ friends });
     res.json(friends);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+};
+
+// @route  POST /user/:id
+// @desc   Send Friend request
+// @access Private
+exports.friend_request_post = async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+
+    // check if user has already sent friend request
+    if (
+      user.friendRequests.filter(
+        (friendReq) => friendReq.user.toString() === req.user.id
+      ).length > 0
+    ) {
+      return res.status(400).json({ msg: "Friend request already sent" });
+    }
+
+    // check if users are already friends
+    if (
+      user.friends.filter((friend) => friend.user.toString() === req.user.id)
+        .length > 0
+    ) {
+      return res.status(400).json({ msg: "You are already friends" });
+    }
+
+    user.friendRequests.unshift({ user: req.user.id });
+
+    await user.save();
+
+    res.json(user.friendRequests);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server Error");

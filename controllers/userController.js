@@ -104,6 +104,31 @@ exports.friends_get = async (req, res) => {
   }
 };
 
+// @route  POST /friends
+// @desc   Update friends
+// @access Private
+exports.friends_update_post = async (req, res) => {
+  try {
+    const friends = await User.findById(req.user.id).find({ friends });
+
+    // check if user are friends
+    if (
+      friends.filter((friend) => friend.user === req.body.userId).length > 0
+    ) {
+      friends.unshift({ user: req.body.id });
+
+      await friends.save();
+
+      res.json(friends);
+    } else {
+      return res.status(400).json({ msg: "User is not friends" });
+    }
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+};
+
 // @route  POST /user/:id
 // @desc   Send Friend request
 // @access Private

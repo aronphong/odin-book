@@ -28,3 +28,5 @@ router.delete("/me", [auth], profile_delete);
 /* @todo
     Update user profile
 */
+
+module.exports = router;

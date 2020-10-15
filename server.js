@@ -9,6 +9,7 @@ const logger = require("morgan");
 const indexRouter = require("./routes/index");
 const usersRouter = require("./routes/api/users");
 const postsRouter = require("./routes/api/posts");
+const profileRouter = require("./routes/api/profile");
 const timeLineRouter = require("./routes/api/posts");
 
 const connectDB = require("./config/db");
@@ -32,6 +33,7 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use("/timeline", timeLineRouter);
 app.use("/user", usersRouter);
 app.use("/posts", postsRouter);
+app.use("/profile", profileRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

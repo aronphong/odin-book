@@ -17,6 +17,7 @@ const UserSchema = new Schema({
       user: { type: Schema.Types.ObjectId },
     },
   ],
+  bio: { type: String },
 });
 
 module.exports = mongoose.model("User", UserSchema);

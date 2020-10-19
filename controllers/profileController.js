@@ -7,9 +7,9 @@ const Profile = require("../models/Profile");
 // @access Private
 exports.my_profile_get = async (req, res) => {
   try {
-    const profile = await (
-      await Profile.findOne({ user: req.user.id })
-    ).populated("user", ["name", "avatar", "friends"]);
+    const profile = await User.findOne({
+      user: req.user.id,
+    }).populate("user", ["name", "avatar", "friends"]);
 
     if (!profile) {
       return res.status(400).json({ msg: "No profile for user found" });

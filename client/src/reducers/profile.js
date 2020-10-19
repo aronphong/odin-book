@@ -25,6 +25,13 @@ export default function (state = initialState, action) {
         loading: false,
       };
 
+    case GET_PROFILES:
+      return {
+        ...state,
+        profiles: payload,
+        loading: false,
+      };
+
     case PROFILE_ERROR:
       return {
         ...state,
@@ -32,6 +39,14 @@ export default function (state = initialState, action) {
         error: payload,
         loading: false,
       };
+
+    case CLEAR_PROFILE:
+      return {
+        ...state,
+        profile: null,
+        loading: false,
+      };
+
     default:
       return state;
   }

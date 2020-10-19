@@ -91,9 +91,22 @@ exports.login_post = async (req, res) => {
   }
 };
 
+// @route GET /
+// @desc  Get current user
+// @access Private
+exports.current_user_get = async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id).select("-password");
+    res.json(user);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+};
+
 // @route GET /friends
 // @desc  Get all users friends
-// access Private
+// @access Private
 exports.friends_get = async (req, res) => {
   try {
     const friends = await User.findById(req.user.id).find({ friends });

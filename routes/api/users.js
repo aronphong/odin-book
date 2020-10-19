@@ -6,6 +6,7 @@ const auth = require("../../middleware/auth");
 const {
   login_post,
   signup_post,
+  current_user_get,
   friends_get,
   friend_request_post,
   friends_update_post,
@@ -17,18 +18,8 @@ const {
   validate_signup,
 } = require("../../validators/userValidator");
 
-const User = require("../../models/User");
-
-// Test Route
-router.get("/", [auth], async (req, res) => {
-  try {
-    const user = await User.findById(req.user.id).select("-password");
-    res.json(user);
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send("Server Error");
-  }
-});
+// GET current user
+router.get("/", [auth], current_user_get);
 
 // POST user login
 router.post("/login", validate_login, login_post);

@@ -1,15 +1,32 @@
 const Post = require("../models/Post");
 const User = require("../models/User");
-const Profile = require("../models/Profile");
+// const Profile = require("../models/Profile");
+
+// @route  GET /profiles
+// @desc   Get all profiles
+// @access Private
+exports.profiles_get = async (req, res) => {
+  try {
+    const profiles = await User.find({}).select(["name", "avatar"]);
+
+    res.json(profiles);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+};
 
 // @route  GET /me
 // @desc   Get current user profile
 // @access Private
 exports.my_profile_get = async (req, res) => {
   try {
-    const profile = await User.findOne({
-      user: req.user.id,
-    }).populate("user", ["name", "avatar", "friends"]);
+    const profile = await User.findById(req.user.id).select([
+      "name",
+      "avatar",
+      "friends",
+      "bio",
+    ]);
 
     if (!profile) {
       return res.status(400).json({ msg: "No profile for user found" });
@@ -27,28 +44,16 @@ exports.my_profile_get = async (req, res) => {
 // @desc   Update user profile
 // @access Private
 
-// @route  GET /profiles
-// @desc   Get all profiles
-// @access Private
-exports.profiles_get = async (req, res) => {
-  try {
-    const profiles = await Profile.find().populate("user", ["name", "avatar"]);
-
-    res.json(profiles);
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send("Server Error");
-  }
-};
-
 // @route  GET /:id
 // @desc   Get specific user profile
 // @access Private
 exports.profile_get = async (req, res) => {
   try {
-    const profile = await Profile.findOne({
-      user: req.params.id,
-    }).populate("user", ["name", "avatar", "friends"]);
+    const profile = await User.findById(req.params.id).select([
+      "name",
+      "avatar",
+      "friends",
+    ]);
 
     if (!profile) {
       return res.status(400).json({ msg: "Profile not found" });
@@ -67,7 +72,7 @@ exports.profile_get = async (req, res) => {
 exports.profile_delete = async (req, res) => {
   try {
     await Post.deleteMany({ user: req.user.id });
-    await Profile.findOneAndRemove({ user: req.user.id });
+    // await Profile.findOneAndRemove({ user: req.user.id });
     await User.findOneAndRemove({ user: req.user.id });
 
     res.json({ msg: "User deleted" });

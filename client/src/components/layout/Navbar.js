@@ -16,7 +16,9 @@ export const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
       <li>
         <Link to='/profile/me'>Your Profile</Link>
       </li>
-
+      <li>
+        <Link to='/profiles'>Find Friends</Link>
+      </li>
       <li>
         <a onClick={logout} href='/'>
           <span>Logout</span>

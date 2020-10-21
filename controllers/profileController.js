@@ -53,6 +53,7 @@ exports.profile_get = async (req, res) => {
       "name",
       "avatar",
       "friends",
+      "bio",
     ]);
 
     if (!profile) {

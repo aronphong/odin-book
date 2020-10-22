@@ -3,6 +3,8 @@ import {
   GET_PROFILES,
   PROFILE_ERROR,
   UPDATE_PROFILE,
+  REQUEST_FRIEND,
+  REMOVE_FRIEND,
   CLEAR_PROFILE,
   ACCOUNT_DELETED,
 } from "../actions/types";
@@ -29,6 +31,13 @@ export default function (state = initialState, action) {
       return {
         ...state,
         profiles: payload,
+        loading: false,
+      };
+
+    case REQUEST_FRIEND:
+      return {
+        ...state,
+        profile: { ...state.profile, friendRequests: payload },
         loading: false,
       };
 

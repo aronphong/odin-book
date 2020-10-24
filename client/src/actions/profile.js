@@ -6,8 +6,11 @@ import {
   GET_PROFILES,
   PROFILE_ERROR,
   UPDATE_PROFILE,
+  REQUEST_FRIEND,
+  REMOVE_FRIEND,
   CLEAR_PROFILE,
   ACCOUNT_DELETED,
+  ADD_FRIEND,
 } from "./types";
 
 // Get current user profile
@@ -61,3 +64,39 @@ export const getProfiles = () => async (dispatch) => {
     });
   }
 };
+
+// Send Friend Request by ID
+export const addFriend = (userId) => async (dispatch) => {
+  try {
+    const res = await axios.post(`/users/user/${userId}`);
+
+    dispatch({
+      type: REQUEST_FRIEND,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: PROFILE_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
+  }
+};
+
+// @todo
+// Accept friend request
+export const acceptFriend = () => async (dispatch) => {
+  try {
+    const res = await axios.post("/users/friends");
+
+    dispatch({
+      type: ADD_FRIEND,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: PROFILE_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
+  }
+};
+// Remove friend

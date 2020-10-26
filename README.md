@@ -20,6 +20,11 @@ Redux is used for state management.
 - Friend requests and friends
 - Photo Uploading
 
+### Things I need to fix
+
+- Backend API route naming
+- Using Redux Tool Kit for state management
+
 ## Main Technologies
 
 ### Client Side

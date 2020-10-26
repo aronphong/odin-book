@@ -15,11 +15,11 @@ const {
 // GET current user profile
 router.get("/me", [auth], my_profile_get);
 
-// GET all profiles
-router.get("/profiles", [auth], profiles_get);
-
 // DELETE profile, user & posts
 router.delete("/me", [auth], profile_delete);
+
+// GET all profiles
+router.get("/profiles", [auth], profiles_get);
 
 // GET specific user profile
 router.get("/:id", [auth], profile_get);

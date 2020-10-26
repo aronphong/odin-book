@@ -122,15 +122,21 @@ exports.friends_get = async (req, res) => {
 // @access Private
 exports.friends_update_post = async (req, res) => {
   try {
-    const friends = await User.findById(req.user.id).find({ friends });
+    const friends = await User.findById(req.user.id).select("friends");
+    const friendReq = await User.findById(req.user.id).select("friendRequests");
 
-    // check if user are friends
+    // check if user has friend request & are friends
     if (
-      friends.filter((friend) => friend.user === req.body.userId).length > 0
+      friends.filter((friend) => friend.user === req.body.userId).length > 0 &&
+      friendReq.filter((request) => request.user === req.body.userId).length > 0
     ) {
       friends.unshift({ user: req.body.id });
+      friendReq = friendReq.filter(
+        (request) => request.user !== req.body.userId
+      );
 
       await friends.save();
+      await friendReq.save();
 
       res.json(friends);
     } else {

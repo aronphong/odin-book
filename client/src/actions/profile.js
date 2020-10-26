@@ -68,7 +68,7 @@ export const getProfiles = () => async (dispatch) => {
 // Send Friend Request by ID
 export const addFriend = (userId) => async (dispatch) => {
   try {
-    const res = await axios.post(`/users/user/${userId}`);
+    const res = await axios.post(`/user/user/${userId}`);
 
     dispatch({
       type: REQUEST_FRIEND,
@@ -99,4 +99,5 @@ export const acceptFriend = () => async (dispatch) => {
     });
   }
 };
+
 // Remove friend

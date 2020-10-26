@@ -4,6 +4,7 @@ import {
   PROFILE_ERROR,
   UPDATE_PROFILE,
   REQUEST_FRIEND,
+  ADD_FRIEND,
   REMOVE_FRIEND,
   CLEAR_PROFILE,
   ACCOUNT_DELETED,
@@ -41,6 +42,12 @@ export default function (state = initialState, action) {
         loading: false,
       };
 
+    case ADD_FRIEND:
+      return {
+        ...state,
+        profile: { ...state.profile, friends: payload },
+        loading: false,
+      };
     case PROFILE_ERROR:
       return {
         ...state,
